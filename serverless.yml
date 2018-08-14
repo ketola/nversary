@@ -1,0 +1,17 @@
+service:
+  name: nversary
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-west-1
+
+functions:
+  nversaryGreeter:
+    handler: handler.greeter
+    events:
+    - schedule: cron(50 11 * * ? *)
