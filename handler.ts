@@ -12,7 +12,7 @@ export const greeter: Handler = (event: ScheduledEvent, context: Context, cb: Ca
 
   const service = new CongratulationService(new EmployeeRepositoryLocalImpl((<any>data)), new FlowdockService(new FlowdockConfiguration(organization, flow, token, false)));
 
-  let call = async () => await service.congratulate();
+  let call = async () => await service.congratulate(new Date());
   call();
   cb(null, {});
 }

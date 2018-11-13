@@ -11,17 +11,25 @@ class CongratulationService {
     this.flowdockService = flowdockService
   }
 
-  async congratulate() : Promise<void> {
-    const employees = this.employeeRepository.findAllEmployees()
-    const now : Date = new Date()
-    for (let e of employees) {
-      if(this.shouldBeCongratulated(e, now)){
-        const yearsAtCompany : Number = this.yearsPresent(e, now)
-        const message : string = 'Congratulations ' + e.fullName + '. ' + yearsAtCompany + (yearsAtCompany === 1 ? ' year' : ' years') + ' at Nitor!'
-        await this.flowdockService.sendMessage(message)
-        console.log(message)
-      }
+  async congratulate(date: Date) : Promise<void> {
+    if(date.getDay() === 6 || date.getDay() === 0){
+      console.log('Skipping sending message on Saturday and Sunday')
+      return
     }
+
+    const employees = this.employeeRepository.findAllEmployees().filter(e => this.shouldBeCongratulated(e, date))
+    const nthWeekday = this.nthWeekDay(date);
+
+    if(employees.length <= nthWeekday){
+      console.log('No more messages to send in this month')
+      return
+    }
+
+    const employee = employees[nthWeekday]
+    const yearsAtCompany : Number = this.yearsPresent(employee, date)
+    const message : string = 'Congratulations ' + employee.fullName + '. ' + yearsAtCompany + (yearsAtCompany === 1 ? ' year' : ' years') + ' at Nitor!'
+    await this.flowdockService.sendMessage(message)
+    console.log(message)
 
     return Promise.resolve()
   }
@@ -38,6 +46,19 @@ class CongratulationService {
 
   yearsPresent(employee : Employee, now : Date) : Number {
     return now.getFullYear() - parseInt(employee.presence[0].start.split('-')[0])
+  }
+
+  nthWeekDay(now : Date){
+    let n = -1;
+    for(let i = 1; i <= 31; i++){
+      const date : Date = new Date(Date.UTC(now.getFullYear(), now.getMonth(), i))
+      if(date.getDay() !== 0 && date.getDay() !== 6){
+        n++
+      }
+      if(date.getDate() == now.getDate()){
+        return n
+      }
+    }
   }
 }
 
