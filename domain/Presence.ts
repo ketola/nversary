@@ -1,9 +1,9 @@
 class Presence {
-  start: string
+  public start: string;
 
-  constructor(start: string){
-    this.start = start
+  constructor(start: string) {
+    this.start = start;
   }
 }
 
-export {Presence}
+export {Presence};

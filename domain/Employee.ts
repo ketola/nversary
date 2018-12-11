@@ -1,13 +1,13 @@
-import {Presence} from './Presence'
+import {Presence} from "./Presence";
 
 class Employee {
-  fullName: string
-  presence: Array<Presence>
+  public fullName: string;
+  public presence: Presence[];
 
-  constructor(fullName: string, presence: Array<Presence>){
-    this.fullName = fullName
-    this.presence =  presence
+  constructor(fullName: string, presence: Presence[]) {
+    this.fullName = fullName;
+    this.presence =  presence;
   }
 }
 
-export {Employee}
+export {Employee};

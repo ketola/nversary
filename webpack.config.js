@@ -21,6 +21,7 @@ module.exports = {
   target: 'node',
   module: {
     loaders: [
+      { test: /\.ts$/, enforce: 'pre', loader: 'tslint-loader', options: { /* Loader options go here */ }},
       { test: /\.ts(x?)$/, loader: 'ts-loader' },
     ],
   },

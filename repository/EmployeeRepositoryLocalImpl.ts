@@ -1,18 +1,18 @@
-import {EmployeeRepository} from './EmployeeRepository'
-import {Employee} from '../domain/Employee'
+import {Employee} from "../domain/Employee";
+import {IEmployeeRepository} from "./EmployeeRepository";
 
-class EmployeeRepositoryLocalImpl implements EmployeeRepository {
+class EmployeeRepositoryLocalImpl implements IEmployeeRepository {
 
-  data : any[]
+  public data: any[];
 
-  constructor(data : any[]){
-    this.data = data
+  constructor(data: any[]) {
+    this.data = data;
   }
 
-  findAllEmployees() : ReadonlyArray<Employee> {
-    let people: any[] = (<any>this.data).people
-    return people.map(p => new Employee(p.fullName, p.presence))
+  public findAllEmployees(): ReadonlyArray<Employee> {
+    const people: any[] = (this.data as any).people;
+    return people.map((p) => new Employee(p.fullName, p.presence));
   }
 }
 
-export {EmployeeRepositoryLocalImpl}
+export {EmployeeRepositoryLocalImpl};

@@ -1,7 +1,7 @@
-import {Employee} from '../domain/Employee'
+import {Employee} from "../domain/Employee";
 
-interface EmployeeRepository {
-  findAllEmployees(): ReadonlyArray<Employee>
+interface IEmployeeRepository {
+  findAllEmployees(): ReadonlyArray<Employee>;
 }
 
-export {EmployeeRepository}
+export {IEmployeeRepository};
