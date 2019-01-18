@@ -27,8 +27,8 @@ class CongratulationService {
 
     const employee = employees[nthWeekday];
     const yearsAtCompany: number = this.yearsPresent(employee, date);
-    const message: string = "Congratulations " + employee.fullName + ". " + yearsAtCompany
-      + (yearsAtCompany === 1 ? " year" : " years") + " at Nitor!";
+    const message: string = `Congratulations **${employee.fullName}** ` +
+      `${yearsAtCompany} ${(yearsAtCompany === 1 ? " year" : " years")}  at Nitor! :tada:`;
     await this.flowdockService.sendMessage(message);
     console.log(message);
 
