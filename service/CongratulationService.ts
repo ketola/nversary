@@ -14,18 +14,24 @@ class CongratulationService {
   public async congratulate(date: Date): Promise<void> {
     if (date.getDay() === 6 || date.getDay() === 0) {
       console.log("Skipping sending message on Saturday and Sunday");
-      return;
+      return Promise.resolve();
     }
 
     const employees = this.employeeRepository.findAllEmployees().filter((e) => this.shouldBeCongratulated(e, date));
+    if (employees.length === 0) {
+      console.log("No more employees to congratulate");
+      return Promise.resolve();
+    }
+
     const nthWeekday = this.nthWeekDay(date);
 
     if (employees.length <= nthWeekday) {
       console.log("No more messages to send in this month");
-      return;
+      return Promise.resolve();
     }
 
     const employee = employees[nthWeekday];
+    console.log(employee);
     const yearsAtCompany: number = this.yearsPresent(employee, date);
     const message: string = `Congratulations **${employee.fullName}** ` +
       `${yearsAtCompany} ${(yearsAtCompany === 1 ? "year" : "years")} at Nitor! :tada:`;
