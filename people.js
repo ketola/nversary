@@ -11,9 +11,12 @@ $('table')
                 person.fullName = tds.find('h4').text().trim();
                 person.email = tds.find('.email').text().trim();
                 person.presence = [];
-                person.presence.push({start: $(tds[2]).text() });
 
-                result.people.push(person);
+                var presence = $(tds[2]).text();
+                person.presence.push({start: presence });
+
+                if(presence.length < 8)
+                  result.people.push(person);
             });
 
 console.log(JSON.stringify(result, null, 2));
