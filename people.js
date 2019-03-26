@@ -15,7 +15,7 @@ $('table')
                 var presence = $(tds[2]).text();
                 person.presence.push({start: presence });
 
-                if(presence.length < 8)
+                if(person.fullName.length > 0 && presence.length < 8)
                   result.people.push(person);
             });
 
