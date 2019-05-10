@@ -20,7 +20,7 @@ module.exports = {
   },
   target: 'node',
   module: {
-    loaders: [
+    rules: [
       { test: /\.ts$/, enforce: 'pre', loader: 'tslint-loader', options: { /* Loader options go here */ }},
       { test: /\.ts(x?)$/, loader: 'ts-loader' },
     ],
