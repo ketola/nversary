@@ -15,7 +15,3 @@ functions:
     handler: handler.greeter
     events:
     - schedule: cron(50 11 * * ? *)
-
-custom:
-  webpack:
-    excludeFiles: '**/*.test.ts'
