@@ -51,6 +51,7 @@ it("calculates nth weekday", () => {
   expect(service.nthWeekDay(new Date("2019-02-01T03:24:00"))).toBe(0);
   expect(service.nthWeekDay(new Date("2019-02-04T03:24:00"))).toBe(1);
   expect(service.nthWeekDay(new Date("2019-02-05T03:24:00"))).toBe(2);
+  expect(service.nthWeekDay(new Date("2019-06-01T03:24:00"))).toBe(-1);
 });
 
 it("detects work anniversary", () => {
