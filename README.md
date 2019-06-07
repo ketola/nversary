@@ -12,19 +12,17 @@ To build the project run 'npm i' in the project directory
 ### AWS Account
 An AWS Account is required. If you don't have one, create it at https://aws.amazon.com/
 
-### Flowdock flow and flow_token
+### Flowdock flow and api token
 nversary posts messages to Flowdock chat flows. Use an existing flow or create a new flow. For testing it's recommended that you create a new flow:
 - Go to https://www.flowdock.com/app/create-flow to create a new flow
 
-To post to the flow a token is required:
+To post to the flow from a different account, a specialized (bot) account is needed:
 - In Flowdock main view, from your name (in top left corner), Choose Account
-- Click Developer Applications
-- Click New Application
-- Add a name and choose option "Shortcut application"
-- Scroll down and choose the flow you want to post to (the one you created in the previous step)
-- Click the link that was generated below the flow name
-- Give a name to the source and click Create source
-- take note of the flow token that was created
+- Select the Organization where you will be posting messages
+- Select Users and click "Add specialized user"
+- give a user name for the account and set the email address where you will confirm the account (it can be the same you use for for your own account)
+- Check your email and set a password for the account
+- Login and grab the "API Token"
 
 ### Serverless framework
 nversary uses serverless framework to deploy nversary
@@ -54,7 +52,7 @@ Configure the Lambda function that was created by Serverless
 - Open the nversary-dev-nversaryGreeter function in aws console and add the following environment variables:
 -- flowdock_flow (name of the flow created in step 'Flowdock flow and flow_token')
 -- flowdock_organization (flowdock organization where the flow was created)
--- flowdock_flowtoken (the flowdock token created in step 'Flowdock flow and flow_token')
+-- flowdock_flowtoken (the flowdock token created in step 'Flowdock flow and api token')
 
 (Optional) Modify the interval of notifications
 - serverless.yml contains the cron expression which defines when the code is executed
