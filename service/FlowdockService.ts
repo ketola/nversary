@@ -11,15 +11,13 @@ class FlowdockService {
   }
 
   public sendMessage(message: string) {
-    console.log("Send to flowdock " + message);
-
+    const url = `https://${this.flowdockConfiguration.token}@api.flowdock.com/flows/` +
+        `${this.flowdockConfiguration.organization}/${this.flowdockConfiguration.flow}/messages`;
+    console.log("Send to flowdock " + message + ", url " + url);
+    
     if (this.flowdockConfiguration.dryRun) {
       return Promise.resolve(message);
     } else {
-      const url = "https://api.flowdock.com/flows/"
-        + this.flowdockConfiguration.organization + "/"
-        + this.flowdockConfiguration.flow + "/messages?flow_token=" + this.flowdockConfiguration.token;
-      console.log("url: " + url);
       return request.post(
           url,
           {
