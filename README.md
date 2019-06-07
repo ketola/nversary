@@ -1,7 +1,7 @@
 # nversary  - work anniversary notifier
 nversary congratulates people on their work anniversary in Flowdock
 
-<img src="https://github.com/ketola/nversary/raw/master/nversary.png" width="350" alt="accessibility text">
+<img src="https://github.com/NitorCreations/nversary/raw/master/nversary.png" width="350" alt="accessibility text">
 
 ## Instructions
 How to set up and configure nversary
