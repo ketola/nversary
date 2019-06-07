@@ -20,7 +20,7 @@ To post to the flow from a different account, a specialized (bot) account is nee
 - In Flowdock main view, from your name (in top left corner), Choose Account
 - Select the Organization where you will be posting messages
 - Select Users and click "Add specialized user"
-- give a user name for the account and set the email address where you will confirm the account (it can be the same you use for for your own account)
+- Give a user name for the account and set the email address where you will confirm the account.
 - Check your email and set a password for the account
 - Login and grab the "API Token"
 
