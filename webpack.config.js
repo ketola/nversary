@@ -2,6 +2,7 @@ const path = require('path');
 const slsw = require('serverless-webpack');
 
 module.exports = {
+  mode: 'none',
   entry: slsw.lib.entries,
   devtool: 'source-map',
   resolve: {

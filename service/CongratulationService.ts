@@ -35,7 +35,7 @@ class CongratulationService {
     console.log(employee);
     const tag = await this.getTag(employee.email);
     const yearsAtCompany: number = this.yearsPresent(employee, date);
-    const message: string = `Congratulations **${employee.fullName}** ${tag ? tag + ' ' : ''}` +
+    const message: string = `Congratulations **${employee.fullName}** ${tag ? tag + " " : ""}` +
       `${yearsAtCompany} ${(yearsAtCompany === 1 ? "year" : "years")} at Nitor! :tada:`;
     await this.flowdockService.sendMessage(message);
     console.log(message);
@@ -70,9 +70,9 @@ class CongratulationService {
     }
   }
 
-  public async getTag(email : string) : Promise<string> {
-    let user : FlowdockUser = (await this.flowdockService.getFlowUsers()).filter((user) => user.email === email).pop();
-    return Promise.resolve(user ? '@' + user.nick : null);
+  public async getTag(email: string): Promise<string> {
+    const user: FlowdockUser = (await this.flowdockService.getFlowUsers()).filter((u) => u.email === email).pop();
+    return Promise.resolve(user ? "@" + user.nick : null);
   }
 
 }

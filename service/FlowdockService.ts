@@ -15,7 +15,7 @@ class FlowdockService {
     const url = `https://${this.flowdockConfiguration.token}@api.flowdock.com/flows/` +
         `${this.flowdockConfiguration.organization}/${this.flowdockConfiguration.flow}/messages`;
     console.log("Send to flowdock " + message + ", url " + url);
-    
+
     if (this.flowdockConfiguration.dryRun) {
       return Promise.resolve(message);
     } else {
@@ -31,19 +31,18 @@ class FlowdockService {
     }
   }
 
-  public getFlowUsers() : Promise<ReadonlyArray<FlowdockUser>> {
+  public getFlowUsers(): Promise<ReadonlyArray<FlowdockUser>> {
     const url = `https://${this.flowdockConfiguration.token}@api.flowdock.com/flows/` +
         `${this.flowdockConfiguration.organization}/${this.flowdockConfiguration.flow}/users`;
 
     if (this.flowdockConfiguration.dryRun) {
       return Promise.resolve([]);
     } else {
-      var options = {
-        method: 'GET',
+      const options = {
+        json: true,
+        method: "GET",
         uri: url,
-        json: true
-      }
-
+      };
       return request.get(options);
     }
   }
