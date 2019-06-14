@@ -4,6 +4,7 @@ import {Presence} from "../domain/Presence";
 import {EmployeeRepositoryLocalImpl} from "../repository/EmployeeRepositoryLocalImpl";
 import {CongratulationService} from "./CongratulationService";
 import {FlowdockService} from "./FlowdockService";
+import { FlowdockUser } from "../domain/FlowdockUser";
 
 const flowdockService: FlowdockService = new FlowdockService(
     new FlowdockConfiguration("org", "flow-name", "token", true));
@@ -12,14 +13,17 @@ const data = {
     people : [
       {
         fullName: "Employee One",
+        email: "employee.one@email.com",
         presence: [{start: "2017-02"}],
       },
       {
         fullName: "Employee Two",
+        email: "employee.two@email.com",
         presence: [{start: "2017-02"}],
       },
       {
         fullName: "Employee Three",
+        email: "employee.three@email.com",
         presence: [{start: "2017-02"}],
       },
     ],
@@ -41,8 +45,22 @@ it("does congratulate on weekdays", async () => {
   expect(spyOnSendMessage).toHaveBeenCalledTimes(1);
 });
 
+it("tags user when email is found", async () => {
+  const spyOnSendMessage = jest.spyOn(flowdockService, "sendMessage");
+  flowdockService.getFlowUsers = jest.fn().mockReturnValue([new FlowdockUser("NickName", "employee.two@email.com")])
+  await service.congratulate(new Date("2018-02-02T03:24:00"));
+  expect(spyOnSendMessage).toBeCalledWith("Congratulations **Employee Two** @NickName 1 year at Nitor! :tada:");
+});
+
+it("does not tag user when email is not found", async () => {
+  const spyOnSendMessage = jest.spyOn(flowdockService, "sendMessage");
+  flowdockService.getFlowUsers = jest.fn().mockReturnValue([new FlowdockUser("NickName", "employee.five@email.com")])
+  await service.congratulate(new Date("2018-02-02T03:24:00"));
+  expect(spyOnSendMessage).toBeCalledWith("Congratulations **Employee Two** 1 year at Nitor! :tada:");
+});
+
 it("calculates years in company", () => {
-  const  e: Employee = new Employee("Employee Name", [new Presence("2017-02")] );
+  const  e: Employee = new Employee("Employee Name", "emp.name@email.com", [new Presence("2017-02")] );
   expect(service.yearsPresent(e, new Date("2018-02-03T03:24:00"))).toBe(1);
   expect(service.yearsPresent(e, new Date("2019-02-03T03:24:00"))).toBe(2);
 });
@@ -55,7 +73,7 @@ it("calculates nth weekday", () => {
 });
 
 it("detects work anniversary", () => {
-  const  e: Employee = new Employee("Employee Name", [new Presence("2017-02")] );
+  const  e: Employee = new Employee("Employee Name", "emp.name@email.com", [new Presence("2017-02")] );
   expect(service.shouldBeCongratulated(e, new Date("2018-02-01T03:24:00"))).toBeTruthy();
   expect(service.shouldBeCongratulated(e, new Date("2019-02-01T03:24:00"))).toBeTruthy();
   expect(service.shouldBeCongratulated(e, new Date("2019-03-01T03:24:00"))).toBeFalsy();

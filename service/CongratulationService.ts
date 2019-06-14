@@ -1,4 +1,5 @@
 import {Employee} from "../domain/Employee";
+import {FlowdockUser} from "../domain/FlowdockUser";
 import {IEmployeeRepository} from "../repository/EmployeeRepository";
 import {FlowdockService} from "./FlowdockService";
 
@@ -32,8 +33,9 @@ class CongratulationService {
 
     const employee = employees[nthWeekday];
     console.log(employee);
+    const tag = await this.getTag(employee.email);
     const yearsAtCompany: number = this.yearsPresent(employee, date);
-    const message: string = `Congratulations **${employee.fullName}** ` +
+    const message: string = `Congratulations **${employee.fullName}** ${tag ? tag + ' ' : ''}` +
       `${yearsAtCompany} ${(yearsAtCompany === 1 ? "year" : "years")} at Nitor! :tada:`;
     await this.flowdockService.sendMessage(message);
     console.log(message);
@@ -67,6 +69,12 @@ class CongratulationService {
       }
     }
   }
+
+  public async getTag(email : string) : Promise<string> {
+    let user : FlowdockUser = (await this.flowdockService.getFlowUsers()).filter((user) => user.email === email).pop();
+    return Promise.resolve(user ? '@' + user.nick : null);
+  }
+
 }
 
 export {CongratulationService};

@@ -2,6 +2,7 @@ import * as http from "http";
 import * as request from "request-promise";
 
 import {FlowdockConfiguration} from "../domain/FlowdockConfiguration";
+import {FlowdockUser} from "../domain/FlowdockUser";
 
 class FlowdockService {
   public flowdockConfiguration: FlowdockConfiguration;
@@ -27,6 +28,23 @@ class FlowdockService {
               },
           },
       );
+    }
+  }
+
+  public getFlowUsers() : Promise<ReadonlyArray<FlowdockUser>> {
+    const url = `https://${this.flowdockConfiguration.token}@api.flowdock.com/flows/` +
+        `${this.flowdockConfiguration.organization}/${this.flowdockConfiguration.flow}/users`;
+
+    if (this.flowdockConfiguration.dryRun) {
+      return Promise.resolve([]);
+    } else {
+      var options = {
+        method: 'GET',
+        uri: url,
+        json: true
+      }
+
+      return request.get(options);
     }
   }
 }
