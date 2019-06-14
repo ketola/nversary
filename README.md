@@ -7,7 +7,7 @@ nversary congratulates people on their work anniversary in Flowdock
 How to set up and configure nversary
 
 ### Build
-To build the project run 'npm i' in the project directory
+To build the project run 'serverless package' in the project directory
 
 ### AWS Account
 An AWS Account is required. If you don't have one, create it at https://aws.amazon.com/
