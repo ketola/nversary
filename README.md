@@ -22,7 +22,7 @@ To post to the flow from a different account, a specialized (bot) account is nee
 - Select Users and click "Add specialized user"
 - Give a user name for the account and set the email address where you will confirm the account.
 - Check your email and set a password for the account
-- Login and grab the "API Token"
+- Login and grab the "API Token" (top left corner, username -> Account -> API Tokens -> Personal API Token)
 
 ### Serverless framework
 nversary uses serverless framework to deploy nversary
@@ -48,11 +48,11 @@ To deploy nversary by the user created in the previous step, an aws profile is r
 
 ### Configuration
 Configure the Lambda function that was created by Serverless
-- Open AWS Console, choose Services -> Lambda
-- Open the nversary-dev-nversaryGreeter function in aws console and add the following environment variables:
--- flowdock_flow (name of the flow created in step 'Flowdock flow and flow_token')
--- flowdock_organization (flowdock organization where the flow was created)
--- flowdock_flowtoken (the flowdock token created in step 'Flowdock flow and api token')
+* Open AWS Console, choose Services -> Lambda
+* Open the nversary-dev-nversaryGreeter function in aws console and add the following environment variables:
+  * flowdock_flow (name of the flow created in step 'Flowdock flow and flow_token')
+  * flowdock_organization (flowdock organization where the flow was created)
+  * flowdock_flowtoken (the flowdock token created in step 'Flowdock flow and api token')
 
 (Optional) Modify the interval of notifications
-- serverless.yml contains the cron expression which defines when the code is executed
+* serverless.yml contains the cron expression which defines when the code is executed
