@@ -14,8 +14,9 @@ $('table')
 
                 var presence = $(tds[2]).text();
                 person.presence.push({start: presence });
-
-                if(person.fullName.length > 0 && presence.length < 8)
+                
+                // skip persons with no start date and persons with several start dates
+                if(person.fullName.length > 0 && presence.length < 11)
                   result.people.push(person);
             });
 
