@@ -14,17 +14,17 @@ const data = {
       {
         fullName: "Employee One",
         email: "employee.one@email.com",
-        presence: [{start: "2017-02"}],
+        presence: [{start: "2017-02-01"}],
       },
       {
         fullName: "Employee Two",
         email: "employee.two@email.com",
-        presence: [{start: "2017-02"}],
+        presence: [{start: "2017-02-01"}],
       },
       {
         fullName: "Employee Three",
         email: "employee.three@email.com",
-        presence: [{start: "2017-02"}],
+        presence: [{start: "2017-02-01"}],
       },
     ],
 };

@@ -2,7 +2,7 @@
     "people" : [
       {
         "fullName":"Sauli",
-        "presence":[{"start":"2017-04"}]
+        "presence":[{"start":"2017-04-01"}]
       }
     ]
 }
