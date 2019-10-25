@@ -1,15 +1,15 @@
 import {Employee} from "../domain/Employee";
-import {FlowdockUser} from "../domain/FlowdockUser";
+import {SlackUser} from "../domain/SlackUser";
 import {IEmployeeRepository} from "../repository/EmployeeRepository";
-import {FlowdockService} from "./FlowdockService";
+import {SlackService} from "./SlackService";
 
 class CongratulationService {
   public employeeRepository: IEmployeeRepository;
-  public flowdockService: FlowdockService;
+  public slackService: SlackService;
 
-  constructor(employeeRepository: IEmployeeRepository, flowdockService: FlowdockService ) {
+  constructor(employeeRepository: IEmployeeRepository, slackService: SlackService ) {
     this.employeeRepository = employeeRepository;
-    this.flowdockService = flowdockService;
+    this.slackService = slackService;
   }
 
   public async congratulate(date: Date): Promise<void> {
@@ -35,9 +35,9 @@ class CongratulationService {
     console.log(employee);
     const tag = await this.getTag(employee.email);
     const yearsAtCompany: number = this.yearsPresent(employee, date);
-    const message: string = `Congratulations **${employee.fullName}** ${tag ? tag + " " : ""}` +
+    const message: string = `Congratulations *${employee.fullName}* ${tag ? tag + " " : ""}` +
       `${yearsAtCompany} ${(yearsAtCompany === 1 ? "year" : "years")} at Nitor! :tada:`;
-    await this.flowdockService.sendMessage(message);
+    await this.slackService.sendMessage(message);
     console.log(message);
 
     return Promise.resolve();
@@ -71,7 +71,7 @@ class CongratulationService {
   }
 
   public async getTag(email: string): Promise<string> {
-    const user: FlowdockUser = (await this.flowdockService.getFlowUsers()).filter((u) => u.email === email).pop();
+    const user: SlackUser = (await this.slackService.getChannelUsers()).filter((u) => u.email === email).pop();
     return Promise.resolve(user ? "@" + user.nick : null);
   }
 
