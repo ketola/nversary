@@ -1,4 +1,4 @@
-class FlowdockUser {
+class SlackUser {
   public nick: string;
   public email: string;
 
@@ -8,4 +8,4 @@ class FlowdockUser {
   }
 }
 
-export {FlowdockUser};
+export {SlackUser};

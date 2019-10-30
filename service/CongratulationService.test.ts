@@ -1,13 +1,13 @@
 import {Employee} from "../domain/Employee";
-import {FlowdockConfiguration} from "../domain/FlowdockConfiguration";
+import {SlackConfiguration} from "../domain/SlackConfiguration";
 import {Presence} from "../domain/Presence";
 import {EmployeeRepositoryLocalImpl} from "../repository/EmployeeRepositoryLocalImpl";
 import {CongratulationService} from "./CongratulationService";
-import {FlowdockService} from "./FlowdockService";
-import { FlowdockUser } from "../domain/FlowdockUser";
+import {SlackService} from "./SlackService";
+import {SlackUser} from "../domain/SlackUser";
 
-const flowdockService: FlowdockService = new FlowdockService(
-    new FlowdockConfiguration("org", "flow-name", "token", true));
+const slackService: SlackService = new SlackService(
+    new SlackConfiguration("https://webhookurl", true));
 
 const data = {
     people : [
@@ -31,32 +31,32 @@ const data = {
 
 const service = new CongratulationService(
   new EmployeeRepositoryLocalImpl((data as any)),
-  flowdockService);
+  slackService);
 
 it("does not congratulate on weekends", async () => {
-  const spyOnSendMessage = jest.spyOn(flowdockService, "sendMessage");
+  const spyOnSendMessage = jest.spyOn(slackService, "sendMessage");
   await service.congratulate(new Date("2018-02-03T03:24:00"));
   expect(spyOnSendMessage).toHaveBeenCalledTimes(0);
 });
 
 it("does congratulate on weekdays", async () => {
-  const spyOnSendMessage = jest.spyOn(flowdockService, "sendMessage");
+  const spyOnSendMessage = jest.spyOn(slackService, "sendMessage");
   await service.congratulate(new Date("2018-02-02T03:24:00"));
   expect(spyOnSendMessage).toHaveBeenCalledTimes(1);
 });
 
 it("tags user when email is found", async () => {
-  const spyOnSendMessage = jest.spyOn(flowdockService, "sendMessage");
-  flowdockService.getFlowUsers = jest.fn().mockReturnValue([new FlowdockUser("NickName", "employee.two@email.com")])
+  const spyOnSendMessage = jest.spyOn(slackService, "sendMessage");
+  slackService.getChannelUsers = jest.fn().mockReturnValue([new SlackUser("NickName", "employee.two@email.com")])
   await service.congratulate(new Date("2018-02-02T03:24:00"));
-  expect(spyOnSendMessage).toBeCalledWith("Congratulations **Employee Two** @NickName 1 year at Nitor! :tada:");
+  expect(spyOnSendMessage).toBeCalledWith("Congratulations *Employee Two* @NickName 1 year at Nitor! :tada:");
 });
 
 it("does not tag user when email is not found", async () => {
-  const spyOnSendMessage = jest.spyOn(flowdockService, "sendMessage");
-  flowdockService.getFlowUsers = jest.fn().mockReturnValue([new FlowdockUser("NickName", "employee.five@email.com")])
+  const spyOnSendMessage = jest.spyOn(slackService, "sendMessage");
+  slackService.getChannelUsers = jest.fn().mockReturnValue([new SlackUser("NickName", "employee.five@email.com")])
   await service.congratulate(new Date("2018-02-02T03:24:00"));
-  expect(spyOnSendMessage).toBeCalledWith("Congratulations **Employee Two** 1 year at Nitor! :tada:");
+  expect(spyOnSendMessage).toBeCalledWith("Congratulations *Employee Two* 1 year at Nitor! :tada:");
 });
 
 it("calculates years in company", () => {
