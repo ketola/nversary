@@ -11,10 +11,12 @@ export const greeter: Handler = (event: NversaryEvent, context: Context, cb: Cal
   
   const date = event.dateString ? new Date(event.dateString) : new Date();   
   const webhookUrl: string = process.env.slack_webhook_url;
-  
+  const channelId: string = process.env.slack_channel_id;
+  const appToken: string = process.env.slack_app_token;
+
   const service = new CongratulationService(
     new EmployeeRepositoryLocalImpl((data as any)),
-    new SlackService(new SlackConfiguration(webhookUrl, false)));
+    new SlackService(new SlackConfiguration(webhookUrl, channelId, appToken, false)));
 
   const call = async () => await service.congratulate(date);
   call();
