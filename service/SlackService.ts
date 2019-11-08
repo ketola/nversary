@@ -39,8 +39,8 @@ class SlackService {
     }
   }
 
-  private getChannelUsersIds(): Promise<ReadonlyArray<String>>{
-    const url = "https://slack.com/api/channels.info?" + this.slackConfiguration.appToken;
+  private getChannelUsersIds(): Promise<ReadonlyArray<string>>{
+    const url = "https://slack.com/api/channels.info?token=" + this.slackConfiguration.appToken;
     if (this.slackConfiguration.dryRun) {
       return Promise.resolve([]);
     } else {
