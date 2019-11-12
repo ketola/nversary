@@ -62,7 +62,7 @@ class SlackService {
     console.log("All users " + JSON.stringify(channelUsers));
     const filteredUsers = channelUsers.filter(user => channelUsersIds.includes(user.id));
     console.log("Filtered users " + JSON.stringify(filteredUsers));
-    return channelUsers;
+    return filteredUsers;
   }
 }
 
