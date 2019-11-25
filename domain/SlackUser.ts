@@ -1,9 +1,11 @@
 class SlackUser {
-  public nick: string;
+  public id: string;
+  public realName: string;
   public email: string;
 
-  constructor(nick: string, email: string) {
-    this.nick = nick;
+  constructor(id: string, realName: string, email: string) {
+    this.id = id;
+    this.realName = realName;
     this.email =  email;
   }
 }

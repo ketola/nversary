@@ -7,7 +7,7 @@ import {SlackService} from "./SlackService";
 import {SlackUser} from "../domain/SlackUser";
 
 const slackService: SlackService = new SlackService(
-    new SlackConfiguration("https://webhookurl", true));
+    new SlackConfiguration("https://webhookurl", "CHANNELID", "app-token", true));
 
 const data = {
     people : [
@@ -47,14 +47,14 @@ it("does congratulate on weekdays", async () => {
 
 it("tags user when email is found", async () => {
   const spyOnSendMessage = jest.spyOn(slackService, "sendMessage");
-  slackService.getChannelUsers = jest.fn().mockReturnValue([new SlackUser("NickName", "employee.two@email.com")])
+  slackService.getChannelUsers = jest.fn().mockReturnValue([new SlackUser("USERID", "Real Name", "employee.two@email.com")])
   await service.congratulate(new Date("2018-02-02T03:24:00"));
-  expect(spyOnSendMessage).toBeCalledWith("Congratulations *Employee Two* @NickName 1 year at Nitor! :tada:");
+  expect(spyOnSendMessage).toBeCalledWith("Congratulations *Employee Two* <@USERID> 1 year at Nitor! :tada:");
 });
 
 it("does not tag user when email is not found", async () => {
   const spyOnSendMessage = jest.spyOn(slackService, "sendMessage");
-  slackService.getChannelUsers = jest.fn().mockReturnValue([new SlackUser("NickName", "employee.five@email.com")])
+  slackService.getChannelUsers = jest.fn().mockReturnValue([new SlackUser("USERID", "Real Name", "employee.five@email.com")])
   await service.congratulate(new Date("2018-02-02T03:24:00"));
   expect(spyOnSendMessage).toBeCalledWith("Congratulations *Employee Two* 1 year at Nitor! :tada:");
 });

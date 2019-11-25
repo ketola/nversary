@@ -72,7 +72,7 @@ class CongratulationService {
 
   public async getTag(email: string): Promise<string> {
     const user: SlackUser = (await this.slackService.getChannelUsers()).filter((u) => u.email === email).pop();
-    return Promise.resolve(user ? "@" + user.nick : null);
+    return Promise.resolve(user ? "<@" + user.id  + ">": null);
   }
 
 }
