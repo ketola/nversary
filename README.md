@@ -15,6 +15,8 @@ An AWS Account is required. If you don't have one, create it at https://aws.amaz
 - In Basic Configuration, from Add features and functionality, choose 'Incoming Webhooks' and turn the feature on from the switch
 - Click 'Add new Webhook to Workspace' and choose the channel you will be posting to
 - Copy the webhook url for later use
+- In OAuhth & Permissions, add three scopes: `users:read`, `users:read.email` and `channels:read`
+- Save the OAuth access token
 
 ### Serverless framework
 nversary uses serverless framework to deploy nversary
@@ -43,6 +45,8 @@ Configure the Lambda function that was created by Serverless
 * Open AWS Console, choose Services -> Lambda
 * Open the nversary-dev-nversaryGreeter function in aws console and add the following environment variables:
   * slack_webhook_url (the webhook url from the Slack configuration step)
+  * slack_channel_id (the id of channel you are posting to)
+  * slack_app_token (the OAuth access token created earlier)
 
 ### Testing
 You can test the Lambda function from AWS Lambda console by creating a test event with a 'dateString' attribute. The date string should be in 'yyyy/mm/dd' format.
