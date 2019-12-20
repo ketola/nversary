@@ -29,13 +29,24 @@ class SlackService {
     }
   }
 
+  public async getChannelUsers(): Promise<ReadonlyArray<SlackUser>>{
+    const channelUsersIds = await this.getChannelUsersIds();
+    console.log("Channel user ids " + channelUsersIds);
+    const channelUsers = await this.getUsers()
+    console.log("All users " + JSON.stringify(channelUsers));
+    const filteredUsers = channelUsers.filter(user => channelUsersIds.includes(user.id));
+    console.log("Filtered users " + JSON.stringify(filteredUsers));
+    return filteredUsers;
+  }
+
   private getUsers(): Promise<ReadonlyArray<SlackUser>> {
     const url = "https://slack.com/api/users.list?token=" + this.slackConfiguration.appToken;
     if (this.slackConfiguration.dryRun) {
       return Promise.resolve([]);
     } else {
       return request.get(url)
-        .then(response => JSON.parse(response).members.map(member => new SlackUser(member.id, member.profile.real_name, member.profile.email)));
+        .then((response) => JSON.parse(response).members
+          .map((member) => new SlackUser(member.id, member.profile.real_name, member.profile.email)));
     }
   }
 
@@ -51,18 +62,8 @@ class SlackService {
               channel: this.slackConfiguration.channelId,
             },
           },
-      ).then(response => JSON.parse(response).channel.members);
+      ).then((response) => JSON.parse(response).channel.members);
     }
-  }
-
-  public async getChannelUsers(): Promise<ReadonlyArray<SlackUser>>{
-    const channelUsersIds = await this.getChannelUsersIds();
-    console.log("Channel user ids " + channelUsersIds);
-    const channelUsers = await this.getUsers()
-    console.log("All users " + JSON.stringify(channelUsers));
-    const filteredUsers = channelUsers.filter(user => channelUsersIds.includes(user.id));
-    console.log("Filtered users " + JSON.stringify(filteredUsers));
-    return filteredUsers;
   }
 }
 
