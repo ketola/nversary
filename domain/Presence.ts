@@ -1,7 +1,7 @@
 class Presence {
-  public start: string;
+  public start: Date;
 
-  constructor(start: string) {
+  constructor(start: Date) {
     this.start = start;
   }
 }
